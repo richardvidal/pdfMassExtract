@@ -101,7 +101,7 @@ choixFichier(){
     if (SelectedFile = "")    
         SelectedFile.="listeSalaires.txt"
     if FileExist(SelectedFile)
-        MsgBox, Attention ce fichier existe déjà, il y a risque de doublon lors de l'extraction
+        MsgBox, Attention ce fichier déjà, il y a risque de doublon lors de l'extraction
     GuiControl, Text, btnFichier, Fichier cible : %SelectedFile%
 }
 
