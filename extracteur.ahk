@@ -51,26 +51,30 @@ StartProcess()
         }
         else
         {
-        NewSalary := Floor(Salary)
-        NewSalary := NewSalary - Mod(NewSalary,RoundMlt)
-        NewSalary := Min(SalaryMax,NewSalary)    
-        NewSalary := Max(SalaryMin,NewSalary)
-        ListSalary.= NewSalary "`n"
+            NewSalary := Floor(Salary)
+            NewSalary := NewSalary - Mod(NewSalary,RoundMlt)
+            NewSalary := Min(SalaryMax,NewSalary)    
+            NewSalary := Max(SalaryMin,NewSalary)
+            ListSalary.= NewSalary "`n"
         }
         
     }
     sort, ListSalary, ND`n	
+    if FileExist(SelectedFile)
+        FileAppend, Processus lancé sur un fichier déjà existant, %SelectedFile%-erreurs.txt
+
     FileAppend, %ListSalary%, %SelectedFile%
     EndTime := A_TickCount
     ElapsedSeconds := (EndTime - StartTime)/1000.0
 
-
+    
     MsgBox, C'est fait en  %ElapsedSeconds% secondes
     if (ListErreurs!="")
     {
         FileAppend, %ListErreurs%, %SelectedFile%-erreurs.txt
         MsgBox, Des erreurs ont été detectées, regardez le fichier  %SelectedFile%-erreurs.txt
     }
+    SelectedFile :=""
     
 }
 
@@ -96,6 +100,8 @@ choixFichier(){
     FileSelectFile, SelectedFile, S
     if (SelectedFile = "")    
         SelectedFile.="listeSalaires.txt"
+    if FileExist(SelectedFile)
+        MsgBox, Attention ce fichier existe déjà, il y a risque de doublon lors de l'extraction
     GuiControl, Text, btnFichier, Fichier cible : %SelectedFile%
 }
 
